@@ -70,13 +70,35 @@ for (var x = 0; x < width; x++)
 	robot.moveMouse(x, y);
 }
 */
-
+//var robot = require("robotjs");
 ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log("mian1" + arg)  // prints "ping"
-  event.sender.send('asynchronous-reply', 'pong')//在main process里向web page发出message
+  var obj = JSON.parse(arg); //由JSON字符串转换为JSON对象
+  if (obj.event == "mousemove") {
+    //robot.moveMouse(x, y);
+  }
+  
+  //console.log("mian1" + arg)  // prints "ping"
+  //event.sender.send('asynchronous-reply', 'pong')//在main process里向web page发出message
 })
 
 ipcMain.on('synchronous-message', (event, arg) => {
   console.log("mian2" + arg)  // prints "ping"
-  event.returnValue = 'pong'
+  //event.returnValue = 'pong'
 })
+
+/*
+var robot = require("robotjs");
+
+// Speed up the mouse.
+robot.setMouseDelay(2);
+
+var twoPI = Math.PI * 2.0;
+var screenSize = robot.getScreenSize();
+var height = (screenSize.height / 2) - 10;
+var width = screenSize.width;
+
+for (var x = 0; x < width; x++)
+{
+	y = height * Math.sin((twoPI * x) / width) + height;
+	robot.moveMouse(x, y);
+}*/

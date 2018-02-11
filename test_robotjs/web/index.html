@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-    <script src="js/ipc.js"></script>
-  </head>
-  <body onload="init();">
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-    <button onclick="say_hello();">Hello RunJS!</button>
+
+<head>
+
+  <title>Realtime communication with WebRTC</title>
+
+  <link rel="stylesheet" href="css/main.css" />
+
+</head>
+
+<body>
+
+   
+  <div>
+    <input id="ws_addr" type="text" value="ws://localhost:8181">
+    <button id="ConnetToServer">ConnetToServer</button>
+    <button id="Call">Call</button>
+  </div>
+  <div>
+    <video id="remoteVideo" autoplay playsinline></video>
+  </div>
+
+  <!--这是一段注释。注释不会在浏览器中显示。-->
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="js/ipc.js"></script>  
+  <script src="js/foo_webrtc.js"></script>
+  <script src="js/main.js"></script>
 
 
-  </body>
+</body>
+
 </html>

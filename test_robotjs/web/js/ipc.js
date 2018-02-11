@@ -7,9 +7,9 @@ function init() {
   })
 }
 
-function say_hello () {
+function ipc_send (json_msg) {
  //在web page里向main process发出message
-  ipcRenderer.send('asynchronous-message', 'ping') // prints "pong"   
+  ipcRenderer.send('asynchronous-message', json_msg) // prints "pong"   
   // ipcRenderer.sendSync('synchronous-message', 'ping') // prints "pong"   
   // alert("web1" + 'ping');
 }
