@@ -21,7 +21,7 @@ hello-world/
 3. npm install
 
 
-### add robotjs
+### test robotjs
 1. npm install --save-dev robotjs
 2. npm rebuild --runtime=electron --target=1.7.12 --disturl=https://atom.io/download/atom-shell --abi=51
 3. main.js
