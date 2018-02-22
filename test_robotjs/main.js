@@ -55,24 +55,7 @@ app.on('activate', () => {
 
 // 在这文件，你可以续写应用剩下主进程代码。
 // 也可以拆分成几个文件，然后用 require 导入。
-/*
-var robot = require("robotjs");
 
-// Speed up the mouse.
-robot.setMouseDelay(2);
-
-var twoPI = Math.PI * 2.0;
-var screenSize = robot.getScreenSize();
-var height = (screenSize.height / 2) - 10;
-var width = screenSize.width;
-
-for (var x = 0; x < width; x++)
-{
-	y = height * Math.sin((twoPI * x) / width) + height;
-	robot.moveMouse(x, y);
-}
-*/
-//var robot = require("robotjs");
 ipcMain.on('asynchronous-message', (event, arg) => {
   console.log(arg); 
 
@@ -86,7 +69,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     robot.moveMouse(obj.data[0], obj.data[1]);
   }
   else if (obj.event == "ondblclick") {
-    robot.mouseClick();
+    robot.mouseClick("left", true);
   }
 })
 
