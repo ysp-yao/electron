@@ -72,7 +72,13 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     robot.mouseClick("left", true);
   }
   else if (obj.event == "onclick") {
-    robot.mouseClick("left", false);
+    //如果button=1（鼠标左键），button=2（鼠标右键），button=0（鼠标中间键）
+    var b;
+    if (obj.data == 1)
+      b = "left";
+    else if (obj.data == 2)
+      b = "right";
+    robot.mouseClick(b, false);
   }
 
 })
