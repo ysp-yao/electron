@@ -2,6 +2,8 @@ const {app, BrowserWindow} = require('electron')
 const path = require('path')
 const url = require('url')
 const {ipcMain} = require('electron')
+
+var robot = require("robotjs")
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭
 let win
@@ -75,10 +77,22 @@ ipcMain.on('asynchronous-message', (event, arg) => {
   var obj = JSON.parse(arg); //由JSON字符串转换为JSON对象
   if (obj.event == "mousemove") {
     //robot.moveMouse(x, y);
+    console.log(arg);  // prints "ping"
+
+    // Speed up the mouse.
+    robot.setMouseDelay(2);
+
+    var twoPI = Math.PI * 2.0;
+    var screenSize = robot.getScreenSize();
+    var height = (screenSize.height / 2) - 10;
+    var width = screenSize.width;
+
+    for (var x = 0; x < width; x++)
+    {
+      y = height * Math.sin((twoPI * x) / width) + height;
+      robot.moveMouse(x, y);
+    }
   }
-  
-  //console.log("mian1" + arg)  // prints "ping"
-  //event.sender.send('asynchronous-reply', 'pong')//在main process里向web page发出message
 })
 
 ipcMain.on('synchronous-message', (event, arg) => {
@@ -86,19 +100,3 @@ ipcMain.on('synchronous-message', (event, arg) => {
   //event.returnValue = 'pong'
 })
 
-/*
-var robot = require("robotjs");
-
-// Speed up the mouse.
-robot.setMouseDelay(2);
-
-var twoPI = Math.PI * 2.0;
-var screenSize = robot.getScreenSize();
-var height = (screenSize.height / 2) - 10;
-var width = screenSize.width;
-
-for (var x = 0; x < width; x++)
-{
-	y = height * Math.sin((twoPI * x) / width) + height;
-	robot.moveMouse(x, y);
-}*/
