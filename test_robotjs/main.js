@@ -71,6 +71,10 @@ ipcMain.on('asynchronous-message', (event, arg) => {
   else if (obj.event == "ondblclick") {
     robot.mouseClick("left", true);
   }
+  else if (obj.event == "onclick") {
+    robot.mouseClick("left", false);
+  }
+
 })
 
 ipcMain.on('synchronous-message', (event, arg) => {
