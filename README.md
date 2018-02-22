@@ -1,4 +1,4 @@
-### hello world - a basic electron project
+﻿### hello world - a basic electron project
 1. init
 ```
 hello-world/
@@ -23,7 +23,7 @@ hello-world/
 
 ### test robotjs
 1. npm install --save-dev robotjs
-2. npm rebuild --runtime=electron --target=1.7.12 --disturl=https://atom.io/download/atom-shell --abi=51
+2. npm rebuild --runtime=electron --target=1.7.8 --disturl=https://atom.io/download/atom-shell --abi=51
 3. main.js
 ```
 var robot = require("robotjs");
