@@ -99,11 +99,18 @@ function trace(text) {
 }
 
 
-/*
- * mouse position
- */
 window.onmousemove = function(e) {
   if (!is_offer) {
-    rtcsdk.SendData(e.clientX, e.clientY);    
+    var msg = {"event":"onmousemove", "data" : [e.clientX, e.clientY]};
+    var last=JSON.stringify(msg); //将JSON对象转化为JSON字符
+    rtcsdk.SendData(last);    
+  }
+}
+ 
+window.ondblclick = function(e) {
+  if (!is_offer) {
+    var msg = {"event":"ondblclick", "data" : ""};
+    var last=JSON.stringify(msg); //将JSON对象转化为JSON字符
+    rtcsdk.SendData(last);    
   }
 }

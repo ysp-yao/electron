@@ -74,26 +74,19 @@ for (var x = 0; x < width; x++)
 */
 //var robot = require("robotjs");
 ipcMain.on('asynchronous-message', (event, arg) => {
-  var obj = JSON.parse(arg); //由JSON字符串转换为JSON对象
-  if (obj.event == "mousemove") {
-    //robot.moveMouse(x, y);
-    console.log(arg);  // prints "ping"
+  console.log(arg); 
 
-    // Speed up the mouse.
+  var obj = JSON.parse(arg); //由JSON字符串转换为JSON对象
+  if (obj.event == "onmousemove") {
     robot.setMouseDelay(2);
 
-    //var twoPI = Math.PI * 2.0;
     var screenSize = robot.getScreenSize();
     var height = (screenSize.height / 2) - 10;
     var width = screenSize.width;
-    /*
-    for (var x = 0; x < width; x++)
-    {
-      y = height * Math.sin((twoPI * x) / width) + height;
-      robot.moveMouse(x, y);
-    }
-    */
     robot.moveMouse(obj.data[0], obj.data[1]);
+  }
+  else if (obj.event == "ondblclick") {
+    robot.mouseClick();
   }
 })
 

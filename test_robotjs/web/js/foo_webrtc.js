@@ -226,19 +226,10 @@ class Rtcsdk {
     );
   }
 
-  SendData(x, y) {
-    var msg = {"event":"mousemove", "data" : [x, y]};
-    var last=JSON.stringify(msg); //将JSON对象转化为JSON字符
+  SendData(msg) {
     if (sendChannel)
-      sendChannel.send(last);
-    /*
-     * {
-     *   "event" : "mousemove", 
-     *   "data"  : [x, y]
-     * }
-     */
-
-
-    //ipc_send(last);
+      sendChannel.send(msg);
+    //ipc_send(msg);
   }
+
 }
