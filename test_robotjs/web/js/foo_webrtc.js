@@ -239,6 +239,6 @@ class Rtcsdk {
      */
 
 
-    ipc_send(last);
+    //ipc_send(last);
   }
 }

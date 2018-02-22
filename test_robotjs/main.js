@@ -93,7 +93,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
       robot.moveMouse(x, y);
     }
     */
-    robot.moveMouse(x, y);
+    robot.moveMouse(obj.data[0], obj.data[1]);
   }
 })
 
