@@ -83,6 +83,12 @@ ipcMain.on('asynchronous-message', (event, arg) => {
   else if (obj.event == "onkeypress") {
     robot.typeString(String.fromCharCode(obj.data));
   }
+  else if (obj.event == "onmousedrag") {
+    robot.moveMouse(obj.data[0], obj.data[1]);
+    robot.mouseToggle("down");
+    robot.dragMouse(obj.data[2], obj.data[3]);
+    robot.mouseToggle("up");
+  }
 })
 
 ipcMain.on('synchronous-message', (event, arg) => {
