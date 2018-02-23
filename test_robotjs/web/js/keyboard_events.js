@@ -3,7 +3,7 @@
 /*
  * keyboard
  */
-
+var is_offer = false;
 // https://www.w3schools.com/jsref/dom_obj_event.asp
 
 // 	The event occurs when the user presses a key

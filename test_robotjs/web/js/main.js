@@ -17,7 +17,7 @@ var remoteVideo = document.getElementById('remoteVideo');
  * globe variables
  */
 var servers = null;
-var is_offer = false;
+
 var is_first_msg = true;
 
 var constraints = {
