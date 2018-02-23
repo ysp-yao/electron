@@ -229,7 +229,7 @@ class Rtcsdk {
   SendData(msg) {
     if (sendChannel)
       sendChannel.send(msg);
-    //ipc_send(msg);
+    ipc_send(msg);
   }
 
 }
