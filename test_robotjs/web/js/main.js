@@ -120,9 +120,11 @@ window.ondblclick = function(e) {
 }
 
 window.onclick = function(e) {
+  console.log(e.button);
   if (!is_offer) {
     var msg = {"event":"onclick", "data" : e.button};
     var last=JSON.stringify(msg); //将JSON对象转化为JSON字符
     rtcsdk.SendData(last);    
   }
 }
+
