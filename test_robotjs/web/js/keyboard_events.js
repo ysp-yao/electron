@@ -23,5 +23,10 @@ window.onkeydown = function(e) {
 
 // The event occurs when the user releases a key
 window.onkeyup = function(e) {
-    //console.log("e.keyCode");
+  if (e.keyCode == 127) { // backspace
+    var msg = {"event":"onkeypress", "data" : e.keyCode};
+    var last=JSON.stringify(msg); //将JSON对象转化为JSON字符
+    rtcsdk.SendData(last);    
+  }
+      
 }
