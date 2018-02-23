@@ -66,7 +66,7 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     var screenSize = robot.getScreenSize();
     var height = (screenSize.height / 2) - 10;
     var width = screenSize.width;
-    //robot.moveMouse(obj.data[0], obj.data[1]);
+    robot.moveMouse(obj.data[0], obj.data[1]);
   }
   else if (obj.event == "ondblclick") {
     robot.mouseClick("left", true);
