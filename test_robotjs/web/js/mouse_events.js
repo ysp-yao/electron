@@ -16,7 +16,9 @@ window.onmousemove = function(e) {
       var move = Math.sqrt((e.clientX-x)*(e.clientX-x)+(e.clientY-y)*(e.clientY-y));
       if (move < min_move)
         return;
-      msg = {"event":"onmousedrag", "data" : [x,y,e.clientX, e.clientY]};        
+      msg = {"event":"onmousedrag", "data" : [x,y,e.clientX, e.clientY]};  
+      x =  e.clientX;
+      y = e.clientY;     
     }
     else {
       msg = {"event":"onmousemove", "data" : [e.clientX, e.clientY]};
@@ -60,5 +62,7 @@ window.onmousedown = function(e) {
 window.onmouseup = function(e) {
   if (!is_offer) {
     is_drag = 0;
+    x = -1;
+    y = -1;
   }
 }
