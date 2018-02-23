@@ -81,11 +81,8 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     robot.mouseClick(b, false);
   }
   else if (obj.event == "onkeypress") {
-    robot.typeString('a');
+    robot.typeString(String.fromCharCode(obj.data));
   }
-
-
-
 })
 
 ipcMain.on('synchronous-message', (event, arg) => {
