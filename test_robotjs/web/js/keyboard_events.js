@@ -3,7 +3,6 @@
 /*
  * keyboard
  */
-Mousetrap.bind('1', function() { console.log('4'); });
 
 // https://www.w3schools.com/jsref/dom_obj_event.asp
 
