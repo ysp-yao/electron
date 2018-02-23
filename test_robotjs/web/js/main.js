@@ -35,16 +35,7 @@ var constraints = {
 };
 var rtcsdk = new Rtcsdk(constraints);
 var ws;
-/*
-var constraints = {
-  audio: false,
-  video: true
-};
-var offerOptions = {
-  offerToReceiveAudio: 1,
-  offerToReceiveVideo: 1
-};
-*/
+
 
 
 function ConnetToServer() {
