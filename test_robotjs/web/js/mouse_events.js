@@ -6,7 +6,7 @@
 
 var x = -1;
 var y = -1;
-var min_move = 10;
+var min_move = 10.0;
 var is_drag = 0;
 
 window.onmousemove = function(e) {
@@ -14,7 +14,7 @@ window.onmousemove = function(e) {
     var msg;
     if (is_drag) {
       var move = Math.sqrt((e.clientX-x)*(e.clientX-x)+(e.clientY-y)*(e.clientY-y));
-      if (move < min_max)
+      if (move < min_move)
         return;
       msg = {"event":"onmousedrag", "data" : [x,y,e.clientX, e.clientY]};        
     }
@@ -23,6 +23,7 @@ window.onmousemove = function(e) {
     }    
     var last=JSON.stringify(msg); //将JSON对象转化为JSON字符
     rtcsdk.SendData(last);
+    console.log(last);
   }
 }
    

@@ -69,16 +69,17 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     robot.moveMouse(obj.data[0], obj.data[1]);
   }
   else if (obj.event == "ondblclick") {
-    robot.mouseClick("left", true);
+    //robot.mouseClick("left", true);
   }
   else if (obj.event == "onclick") {
     //如果button=1（鼠标左键），button=2（鼠标右键），button=0（鼠标中间键）
+    /*
     var b;
     if (obj.data == 0)
       b = "left";
     else if (obj.data == 2)
       b = "right";
-    robot.mouseClick(b, false);
+    robot.mouseClick(b, false);*/
   }
   else if (obj.event == "onkeypress") {
     robot.typeString(String.fromCharCode(obj.data));
