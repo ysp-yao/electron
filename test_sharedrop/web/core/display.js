@@ -27,7 +27,7 @@ export default function Display(target) {
     this._tile_x = 0;
     this._tile_y = 0;
 
-    Log.Debug(">> Display.constructor");
+    console.log(">> Display.constructor");
 
     // The visible canvas
     this._target = target;
@@ -57,7 +57,7 @@ export default function Display(target) {
                            right: this._backbuffer.width,
                            bottom: this._backbuffer.height };
 
-    Log.Debug("User Agent: " + navigator.userAgent);
+    console.log("User Agent: " + navigator.userAgent);
 
     this.clear();
 
@@ -67,7 +67,7 @@ export default function Display(target) {
     }
 
     this._tile16x16 = this._drawCtx.createImageData(16, 16);
-    Log.Debug("<< Display.constructor");
+    console.log("<< Display.constructor");
 };
 
 var SUPPORTS_IMAGEDATA_CONSTRUCTOR = false;
@@ -160,7 +160,7 @@ Display.prototype = {
             typeof(width) === "undefined" ||
             typeof(height) === "undefined") {
 
-            Log.Debug("Setting viewport to full display region");
+            console.log("Setting viewport to full display region");
             width = this._fb_width;
             height = this._fb_height;
         }

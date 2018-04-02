@@ -24,6 +24,10 @@ export function init_logging (level) {
         _log_level = level;
     }
 
+    Debug = Info = Warn = Error = function (msg) {
+        console.log(msg);
+    };
+/*
     Debug = Info = Warn = Error = function (msg) {};
     if (typeof window.console !== "undefined") {
         switch (level) {
@@ -41,6 +45,7 @@ export function init_logging (level) {
                 throw new Error("invalid logging type '" + level + "'");
         }
     }
+*/
 };
 export function get_logging () {
     return _log_level;

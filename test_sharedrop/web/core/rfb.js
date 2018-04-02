@@ -32,6 +32,8 @@ import "./util/polyfill.js";
 var DISCONNECT_TIMEOUT = 3;
 
 export default function RFB(target, url, options) {
+
+
     if (!target) {
         throw Error("Must specify target");
     }
@@ -144,7 +146,7 @@ export default function RFB(target, url, options) {
     };
 
     // main setup
-    Log.Debug(">> RFB.constructor");
+    console.log(">> RFB.constructor");
 
     // Create DOM elements
     this._screen = document.createElement('div');
@@ -201,8 +203,8 @@ export default function RFB(target, url, options) {
     this._sock.on('open', function () {
         if ((this._rfb_connection_state === 'connecting') &&
             (this._rfb_init_state === '')) {
-            this._rfb_init_state = 'ProtocolVersion';
-            Log.Debug("Starting VNC handshake");
+            this._rfb_init_state = 'ProtocolVersion'; // _rfb_init_state改为ProtocolVersion
+            console.log("Starting VNC handshake");
         } else {
             this._fail("Unexpected server connection while " +
                        this._rfb_connection_state);
@@ -248,9 +250,13 @@ export default function RFB(target, url, options) {
 
     // Slight delay of the actual connection so that the caller has
     // time to set up callbacks
-    // setTimeout(this._updateConnectionState.bind(this, 'connecting'));
+    //setTimeout(this._updateConnectionState.bind(this, 'connecting')); // websocket连接，并将this._rfb_connection_state改为connecting
 
-    Log.Debug("<< RFB.constructor");
+    this._connect_new();
+
+    this._negotiate_server_init_new();
+
+    console.log("<< RFB.constructor");
 };
 
 RFB.prototype = {
@@ -393,11 +399,23 @@ RFB.prototype = {
     },
 
     // ===== PRIVATE METHODS =====
+    _connect_new: function () {
+        // Make our elements part of the page
+        this._target.appendChild(this._screen);
+
+        // Monitor size changes of the screen
+        // FIXME: Use ResizeObserver, or hidden overflow
+        window.addEventListener('resize', this._eventHandlers.windowResize);
+
+        // Always grab focus on some kind of click event
+        this._canvas.addEventListener("mousedown", this._eventHandlers.focusCanvas);
+        this._canvas.addEventListener("touchstart", this._eventHandlers.focusCanvas);
+    },
 
     _connect: function () {
-        Log.Debug(">> RFB.connect");
+        console.log(">> RFB.connect");
 
-        Log.Info("connecting to " + this._url);
+        console.log("connecting to " + this._url);
 
         try {
             // WebSocket.onopen transitions to the RFB init states
@@ -421,7 +439,7 @@ RFB.prototype = {
         this._canvas.addEventListener("mousedown", this._eventHandlers.focusCanvas);
         this._canvas.addEventListener("touchstart", this._eventHandlers.focusCanvas);
 
-        Log.Debug("<< RFB.connect");
+        console.log("<< RFB.connect");
     },
 
     _disconnect: function () {
@@ -633,7 +651,7 @@ RFB.prototype = {
         this._rfb_connection_state = state;
 
         var smsg = "New state '" + state + "', was '" + oldstate + "'.";
-        Log.Debug(smsg);
+        console.log(smsg);
 
         if (this._disconnTimer && state !== 'disconnecting') {
             Log.Debug("Clearing disconnect timer");
@@ -709,6 +727,7 @@ RFB.prototype = {
     },
 
     _handle_message: function () {
+        console.log("_handle_message()" + this._rfb_connection_state);
         if (this._sock.rQlen() === 0) {
             Log.Warn("handle_message called on an empty receive queue");
             return;
@@ -1124,7 +1143,7 @@ RFB.prototype = {
 
         if (status === 0) { // OK
             this._rfb_init_state = 'ClientInitialisation';
-            Log.Debug('Authentication OK');
+            console.log('Authentication OK');
             return this._init_msg();
         } else {
             if (this._rfb_version >= 3.8) {
@@ -1139,7 +1158,66 @@ RFB.prototype = {
         }
     },
 
+    _negotiate_server_init_new: function () {        
+        var width = 1024;
+        var height = 768;
+        var bpp = 32;
+        var depth = 32;
+        var big_endian = 0;
+        var true_color = 1;
+        var red_max = 255;
+        var green_max = 255;
+        var blue_max = 255;
+        var red_shift = 16;
+        var green_shift = 8;
+        var blue_shift = 0;
+
+        if (big_endian !== 0) {
+            Log.Warn("Server native endian is not little endian");
+        }
+
+        if (red_shift !== 16) {
+            Log.Warn("Server native red-shift is not 16");
+        }
+
+        if (blue_shift !== 0) {
+            Log.Warn("Server native blue-shift is not 0");
+        }
+
+        // we're past the point where we could backtrack, so it's safe to call this
+        var event = new CustomEvent("desktopname",
+                                    { detail: { name: this._fb_name } });
+        this.dispatchEvent(event);
+
+        this._resize(width, height);
+
+        if (!this._viewOnly) { this._keyboard.grab(); }
+        if (!this._viewOnly) { this._mouse.grab(); }
+
+        this._fb_depth = 24;
+
+        if (this._fb_name === "Intel(r) AMT KVM") {
+            Log.Warn("Intel AMT KVM only supports 8/16 bit depths. Using low color mode.");
+            this._fb_depth = 8;
+        }
+
+        //RFB.messages.pixelFormat(this._sock, this._fb_depth, true);
+        //this._sendEncodings();
+        //RFB.messages.fbUpdateRequest(this._sock, false, 0, 0, this._fb_width, this._fb_height);
+
+        this._timing.fbu_rt_start = (new Date()).getTime();
+        this._timing.pixels = 0;
+
+        // Cursor will be server side until the server decides to honor
+        // our request and send over the cursor image
+        this._display.disableLocalCursor();
+
+        this._updateConnectionState('connected');
+        return true;
+    },
+
     _negotiate_server_init: function () {
+        
         if (this._sock.rQwait("server initialization", 24)) { return false; }
 
         /* Screen size */
@@ -1194,7 +1272,7 @@ RFB.prototype = {
 
         // NB(directxman12): these are down here so that we don't run them multiple times
         //                   if we backtrack
-        Log.Info("Screen: " + width + "x" + height +
+        console.log("Screen: " + width + "x" + height +
                   ", bpp: " + bpp + ", depth: " + depth +
                   ", big_endian: " + big_endian +
                   ", true_color: " + true_color +
@@ -1204,7 +1282,7 @@ RFB.prototype = {
                   ", red_shift: " + red_shift +
                   ", green_shift: " + green_shift +
                   ", blue_shift: " + blue_shift);
-
+        
         if (big_endian !== 0) {
             Log.Warn("Server native endian is not little endian");
         }
@@ -1292,6 +1370,7 @@ RFB.prototype = {
      *   ServerInitialization
      */
     _init_msg: function () {
+        console.log("_init_msg()" + this._rfb_init_state);
         switch (this._rfb_init_state) {
             case 'ProtocolVersion':
                 return this._negotiate_protocol_version();
