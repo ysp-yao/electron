@@ -16,10 +16,28 @@ hello-world/
 ```
   "devDependencies": {
     "electron": "^1.8.4",
-    "robotjs": "^0.5.1"
   }
 ```
 
-3. `npm install`
+3. 
+`npm install --save-dev babel-cli babel-preset-es2015`
+`npm install --save-dev rimraf`
 
-4. `electron .`
+4. 创建`.babelrc`
+```
+{
+  "presets": ["es2015"]
+}
+```
+
+5. `package.json`
+
+```
+  "scripts": {
+    "build": "rimraf ./dist && babel ./web/js --out-dir ./dist/js",
+    "start": "npm run build && electron ."
+  },
+
+```
+
+4. `npm start`
