@@ -16,7 +16,7 @@ hello-world/
 ```
   "devDependencies": {
     "electron": "^1.8.4",
-    "robotjs": "^0.5.1",
+    "robotjs": "^0.5.1"
   }
 ```
 
