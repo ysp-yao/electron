@@ -2,8 +2,6 @@
 1. init
 ```
 hello-world/
-├── .vscode/            // debug in visual stduio code
-    ├──launch.json
 ├── web/                // 
     ├──css
     ├──js
