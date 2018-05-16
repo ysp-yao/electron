@@ -1,5 +1,5 @@
 ﻿### hello world - a basic electron project
-1. init
+#### hello world
 ```
 hello-world/
 ├── web/                // 
@@ -9,35 +9,17 @@ hello-world/
 └── main.js             //
 ```
 
-2. npm init - add to package.json
+#### Steps
+1. `npm init`,generate file package.json
+
+2. add to package.json
 ```
   "devDependencies": {
-    "electron": "~1.7.8"
+    "electron": "^1.8.4",
+    "robotjs": "^0.5.1",
   }
 ```
 
-3. npm install
+3. `npm install`
 
 
-### test robotjs
-1. npm install --save-dev robotjs
-2. npm rebuild --runtime=electron --target=1.7.8 --disturl=https://atom.io/download/atom-shell --abi=51
-3. main.js
-```
-var robot = require("robotjs");
-
-// Speed up the mouse.
-robot.setMouseDelay(2);
-
-var twoPI = Math.PI * 2.0;
-var screenSize = robot.getScreenSize();
-var height = (screenSize.height / 2) - 10;
-var width = screenSize.width;
-
-for (var x = 0; x < width; x++)
-{
-	y = height * Math.sin((twoPI * x) / width) + height;
-	robot.moveMouse(x, y);
-}
-
-```
