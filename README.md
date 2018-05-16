@@ -22,4 +22,4 @@ hello-world/
 
 3. `npm install`
 
-
+4. `electron .`
