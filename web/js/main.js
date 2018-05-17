@@ -1,7 +1,17 @@
 import { RtcParam, Rtcsdk, RTC_PEER_TYPE } from './js/rtc/rtcsdk/rtcsdk'
+import { RFB } from './js/rtc/remote_control/client/rfb'
+import { Replay } from './js/rtc/remote_control/server/replay'
 
 let ws = null; // websocket
 let is_offer = false;
+let rctsdk = null;
+let rfb = null;
+let render = document.getElementById('remoteVideo');
+
+
+function onRfbMsg(e) {
+  rtcsdk.SendData(remote_id, e.buffer);
+}
 
 function onRtcsdkMsg(peer_id, msg_type, msg, data_size) {
   ws.send(msg);
@@ -24,14 +34,17 @@ function onSignalingMsg(evt) {
       rtc_param2.sdp =  evt.data;
       rtc_param2.call_back = onRtcsdkMsg;
       rtc_param2.local_render= null;
-      rtc_param2.remote_render= document.getElementById('remoteVideo');
+      rtc_param2.remote_render= render;
       await rtcsdk.CreatePeer(peer_id, peer_type, rtc_param2);
     } 
     create();
   }
 }
 
-var rtcsdk = new Rtcsdk();
+rtcsdk = new Rtcsdk();
+rfb = new RFB(render, null, onRFBCallBack);
+input.focus();
+
 
 async function Call() {
   is_offer = true;
