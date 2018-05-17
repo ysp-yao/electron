@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-  </body>
+
+<head>
+
+  <title>Realtime communication with WebRTC</title>
+
+  <link rel="stylesheet" href="css/main.css" />
+
+</head>
+
+<body>
+
+   
+  <div>
+    <input id="ws_addr" type="text" value="ws://localhost:8181">
+    <button id="ConnetToServer">ConnetToServer</button>
+    <button id="Call">Call</button>
+  </div>
+  <div>
+    <video id="remoteVideo" autoplay playsinline></video>
+  </div>
+
+
+  <script src="js/main.js"></script>
+
+
+</body>
+
 </html>
