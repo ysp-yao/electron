@@ -248,14 +248,14 @@ Mouse.prototype = {
         c.addEventListener('mousedown', this._eventHandlers.mousedown);
         c.addEventListener('mouseup', this._eventHandlers.mouseup);
         c.addEventListener('mousemove', this._eventHandlers.mousemove);
-        //c.addEventListener('wheel', this._eventHandlers.mousewheel);
+        c.addEventListener('wheel', this._eventHandlers.mousewheel);
 
         /* Prevent middle-click pasting (see above for why we bind to document) */
-        //document.addEventListener('click', this._eventHandlers.mousedisable);
+        document.addEventListener('click', this._eventHandlers.mousedisable);
 
         /* preventDefault() on mousedown doesn't stop this event for some
            reason so we have to explicitly block it */
-        //c.addEventListener('contextmenu', this._eventHandlers.mousedisable);
+        c.addEventListener('contextmenu', this._eventHandlers.mousedisable);
     },
 
     ungrab: function () {

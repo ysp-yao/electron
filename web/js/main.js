@@ -4,17 +4,28 @@ import { Replay } from './js/rtc/remote_control/server/replay'
 
 let ws = null; // websocket
 let is_offer = false;
-let rctsdk = null;
+let rtcsdk = null;
 let rfb = null;
 let render = document.getElementById('remoteVideo');
-
+let data_channel = false;
+let replay = null;
 
 function onRfbMsg(e) {
-  rtcsdk.SendData(remote_id, e.buffer);
+  if (data_channel&&!is_offer) {
+      rtcsdk.SendData("callee", e.buffer);
+  }
 }
 
 function onRtcsdkMsg(peer_id, msg_type, msg, data_size) {
-  ws.send(msg);
+  if (msg_type === 301) {
+    data_channel = true;
+  }
+  else if (msg_type === 'kData') {
+    replay.deal(msg);
+  }
+  else if (msg_type === 101 || msg_type === 102){
+    ws.send(msg);
+  }
 }
 
 function onSignalingMsg(evt) {  
@@ -23,6 +34,8 @@ function onSignalingMsg(evt) {
     rtcsdk.SetRemoteSDP("caller", evt.data);
   }
   else {
+    rfb = new RFB(render, null, onRfbMsg);
+    render.focus();
     async function create() {
       let peer_id = "callee";
       let peer_type=RTC_PEER_TYPE.DATA;     
@@ -41,12 +54,13 @@ function onSignalingMsg(evt) {
   }
 }
 
+
 rtcsdk = new Rtcsdk();
-rfb = new RFB(render, null, onRFBCallBack);
-input.focus();
+
 
 
 async function Call() {
+  replay = new Replay();
   is_offer = true;
 
   let peer_id = "caller";
